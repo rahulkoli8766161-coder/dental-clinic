@@ -230,7 +230,11 @@ def appointments():
         except ValueError:
             flash("Please enter a valid date and time.", "error")
             return render_template("appoinments.html", doctors=doctors_list)
-        if parsed_date < datetime.now().date():
+        current_datetime = datetime.now()
+        if parsed_date < current_datetime.date() or (
+            parsed_date == current_datetime.date() and
+            datetime.strptime(appointment_time, "%H:%M").time() <= current_datetime.time()
+        ):
             flash("Appointments must be booked for today or a future date.", "error")
             return render_template("appoinments.html", doctors=doctors_list)
         existing = database.execute(
