@@ -1,6 +1,7 @@
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
+import os
 import random
 import sqlite3
 
@@ -10,9 +11,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 BASE_DIR = Path(__file__).resolve().parent
 DATABASE = BASE_DIR / "database.db"
 app = Flask(__name__, template_folder=str(BASE_DIR))
-app.secret_key = "dental_clinic_secret_key_change_this"
-ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD = "admin123"
+app.secret_key = os.environ.get("DENTAL_CLINIC_SECRET", "dental_clinic_secret_key_change_this")
+ADMIN_USERNAME = os.environ.get("DENTAL_ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.environ.get("DENTAL_ADMIN_PASSWORD", "admin123")
 
 
 def get_db():
@@ -112,13 +113,21 @@ def index():
 def register():
     if request.method == "POST":
         form = request.form
+        name = form.get("name", "").strip()
+        email = form.get("email", "").strip().lower()
+        password = form.get("password", "")
+        if not name or not email or not password:
+            flash("Name, email, and password are required.", "error")
+            return render_template("register.html")
+        if len(password) < 6:
+            flash("Password must be at least 6 characters.", "error")
+            return render_template("register.html")
         try:
             database = get_db()
             database.execute(
                 """INSERT INTO patients (name, email, password, contact, address, created_at)
                 VALUES (?, ?, ?, ?, ?, ?)""",
-                (form["name"].strip(), form["email"].strip().lower(),
-                 generate_password_hash(form["password"]), form.get("contact", "").strip(),
+                (name, email, generate_password_hash(password), form.get("contact", "").strip(),
                  form.get("address", "").strip(), datetime.now().isoformat(timespec="seconds")),
             )
             database.commit()
@@ -132,10 +141,12 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
         patient = get_db().execute(
-            "SELECT * FROM patients WHERE email = ?", (request.form["email"].strip().lower(),)
+            "SELECT * FROM patients WHERE email = ?", (email,)
         ).fetchone()
-        if patient and check_password_hash(patient["password"], request.form["password"]):
+        if patient and check_password_hash(patient["password"], password):
             session.clear()
             session.update(user_id=patient["id"], user_type="patient", user_name=patient["name"])
             return redirect(url_for("dashboard"))
@@ -146,7 +157,8 @@ def login():
 @app.route("/admin_login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
-        if request.form["username"] == ADMIN_USERNAME and request.form["password"] == ADMIN_PASSWORD:
+        if (request.form.get("username") == ADMIN_USERNAME and
+                request.form.get("password") == ADMIN_PASSWORD):
             session.clear()
             session.update(user_id=0, user_type="admin", user_name="Administrator")
             return redirect(url_for("dashboard"))
@@ -203,13 +215,31 @@ def appointments():
         if not doctor_id:
             flash("Please select a valid doctor.", "error")
             return render_template("appoinments.html", doctors=doctors_list)
+        doctor = database.execute("SELECT id FROM doctors WHERE id = ?", (doctor_id,)).fetchone()
+        if not doctor:
+            flash("Please select a valid doctor.", "error")
+            return render_template("appoinments.html", doctors=doctors_list)
         appointment_date = form.get("date") or form.get("appointment_date")
         appointment_time = form.get("time") or form.get("appointment_time")
         if not appointment_date or not appointment_time or not form.get("reason", "").strip():
             flash("Date, time, and reason are required.", "error")
             return render_template("appoinments.html", doctors=doctors_list)
-        if appointment_date < datetime.now().strftime("%Y-%m-%d"):
+        try:
+            parsed_date = datetime.strptime(appointment_date, "%Y-%m-%d").date()
+            datetime.strptime(appointment_time, "%H:%M")
+        except ValueError:
+            flash("Please enter a valid date and time.", "error")
+            return render_template("appoinments.html", doctors=doctors_list)
+        if parsed_date < datetime.now().date():
             flash("Appointments must be booked for today or a future date.", "error")
+            return render_template("appoinments.html", doctors=doctors_list)
+        existing = database.execute(
+            """SELECT id FROM appointments
+            WHERE doctor_id = ? AND date = ? AND time = ? AND status = 'Scheduled'""",
+            (doctor_id, appointment_date, appointment_time),
+        ).fetchone()
+        if existing:
+            flash("That doctor is already booked for this time.", "error")
             return render_template("appoinments.html", doctors=doctors_list)
         cursor = database.execute(
             """INSERT INTO appointments (patient_id, doctor_id, date, time, reason, status)
@@ -290,10 +320,16 @@ def bill():
 def add_doctor():
     if request.method == "POST":
         form = request.form
+        name = form.get("name", "").strip()
+        specialization = form.get("specialization", "").strip()
+        contact = form.get("contact", "").strip()
+        if not name or not specialization or not contact:
+            flash("Doctor name, specialization, and contact are required.", "error")
+            return render_template("add_doctor.html")
         database = get_db()
         database.execute(
             "INSERT INTO doctors (name, specialization, contact) VALUES (?, ?, ?)",
-            (form["name"].strip(), form["specialization"].strip(), form["contact"].strip()),
+            (name, specialization, contact),
         )
         database.commit()
         flash("Doctor added successfully!", "success")
@@ -331,7 +367,12 @@ def update_appointment_status(appointment_id):
         flash("Invalid appointment status.", "error")
     else:
         database = get_db()
-        database.execute("UPDATE appointments SET status = ? WHERE id = ?", (status, appointment_id))
+        result = database.execute(
+            "UPDATE appointments SET status = ? WHERE id = ?", (status, appointment_id)
+        )
+        if result.rowcount == 0:
+            flash("Appointment not found.", "error")
+            return redirect(url_for("view_appointments"))
         database.commit()
         flash("Appointment status updated.", "success")
     return redirect(url_for("view_appointments"))
@@ -371,21 +412,36 @@ def reports():
 def delete_doctor():
     database = get_db()
     if request.method == "POST":
-        database.execute("DELETE FROM doctors WHERE id = ?", (request.form["doctor_id"],))
-        database.commit()
-        flash("Doctor deleted.", "success")
+        doctor_id = request.form.get("doctor_id")
+        linked = database.execute(
+            "SELECT 1 FROM appointments WHERE doctor_id = ? LIMIT 1", (doctor_id,)
+        ).fetchone()
+        if linked:
+            flash("Doctor cannot be deleted because appointments are linked to this doctor.", "error")
+        else:
+            result = database.execute("DELETE FROM doctors WHERE id = ?", (doctor_id,))
+            database.commit()
+            flash("Doctor deleted." if result.rowcount else "Doctor not found.",
+                  "success" if result.rowcount else "error")
     rows = database.execute("SELECT * FROM doctors ORDER BY name").fetchall()
     return render_template("delate_doctors.html", doctors=rows)
 
 
-@app.route("/delete_doctor/<int:doctor_id>")
+@app.route("/delete_doctor/<int:doctor_id>", methods=["POST"])
 @login_required
 @admin_required
 def delete_doctor_link(doctor_id):
     database = get_db()
-    database.execute("DELETE FROM doctors WHERE id = ?", (doctor_id,))
-    database.commit()
-    flash("Doctor deleted.", "success")
+    linked = database.execute(
+        "SELECT 1 FROM appointments WHERE doctor_id = ? LIMIT 1", (doctor_id,)
+    ).fetchone()
+    if linked:
+        flash("Doctor cannot be deleted because appointments are linked to this doctor.", "error")
+    else:
+        result = database.execute("DELETE FROM doctors WHERE id = ?", (doctor_id,))
+        database.commit()
+        flash("Doctor deleted." if result.rowcount else "Doctor not found.",
+              "success" if result.rowcount else "error")
     return redirect(url_for("delete_doctor"))
 
 

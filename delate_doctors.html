@@ -365,13 +365,11 @@ body {
             </div>
 
 
-                <a href="/delete_doctor/{{ doctor["id"] }}"
-               class="delete-btn"
-                    onclick="return confirm('Are you sure you want to delete Dr. {{ doctor["name"] }}?');">
-
-                Delete
-
-            </a>
+                <form method="post" action="{{ url_for('delete_doctor') }}"
+                      onsubmit="return confirm('Are you sure you want to delete Dr. {{ doctor['name'] }}?');">
+                    <input type="hidden" name="doctor_id" value="{{ doctor['id'] }}">
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
 
         </div>
         {% else %}

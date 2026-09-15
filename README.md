@@ -14,6 +14,7 @@ A Flask and SQLite dental clinic management system with separate patient and adm
 ## Run locally
 
 ```powershell
+cd Documents
 python -m pip install flask werkzeug
 python dental_clinic.py
 ```
