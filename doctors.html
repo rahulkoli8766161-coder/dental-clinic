@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctors</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+
+            background: linear-gradient(
+                135deg,
+                #e0f7fa,
+                #ffffff,
+                #e3f2fd
+            );
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: #263238;
+        }
+
+        .table-container {
+            width: 95%;
+            max-width: 1000px;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            padding: 40px;
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 15px 40px rgba(0, 105, 150, 0.15);
+
+            border: 1px solid rgba(0, 150, 180, 0.1);
+
+            text-align: center;
+
+            overflow-x: auto;
+        }
+
+        .table-container h2 {
+            font-size: 32px;
+
+            color: #007c91;
+
+            margin-bottom: 30px;
+
+            font-weight: 700;
+        }
+
+        .table-container table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            background: #ffffff;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 15px rgba(0, 105, 150, 0.08);
+        }
+
+        .table-container th {
+            padding: 16px 14px;
+
+            background: linear-gradient(
+                135deg,
+                #00acc1,
+                #007c91
+            );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            text-align: left;
+
+            white-space: nowrap;
+        }
+
+        .table-container td {
+            padding: 15px 14px;
+
+            border-bottom: 1px solid #e0eef2;
+
+            color: #455a64;
+
+            font-size: 15px;
+
+            text-align: left;
+        }
+
+        .table-container tr:nth-child(even) td {
+            background: #f5fcfd;
+        }
+
+        .table-container tr:hover td {
+            background: #e0f7fa;
+
+            transition: 0.3s ease;
+        }
+
+        .table-container td:nth-child(2) {
+            font-weight: 600;
+            color: #37474f;
+        }
+
+        .table-container td:nth-child(3) {
+            color: #007c91;
+            font-weight: 500;
+        }
+
+        .table-container td:nth-child(4) {
+            color: #546e7a;
+        }
+
+        .table-container p {
+            margin-top: 25px;
+
+            font-size: 15px;
+
+            color: #607d8b;
+        }
+
+        .table-container a {
+            display: inline-block;
+
+            padding: 11px 20px;
+
+            background: linear-gradient(
+                135deg,
+                #00acc1,
+                #007c91
+            );
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-weight: 600;
+
+            transition: all 0.3s ease;
+
+            box-shadow:
+                0 5px 12px rgba(0, 137, 153, 0.2);
+        }
+
+        .table-container a:hover {
+            transform: translateY(-2px);
+
+            background: linear-gradient(
+                135deg,
+                #00838f,
+                #005f73
+            );
+
+            box-shadow:
+                0 8px 18px rgba(0, 105, 120, 0.3);
+        }
+
+        @media (max-width: 768px) {
+
+            body {
+                align-items: flex-start;
+                padding: 30px 0;
+            }
+
+            .table-container {
+                width: 94%;
+                padding: 25px 18px;
+                border-radius: 20px;
+            }
+
+            .table-container h2 {
+                font-size: 27px;
+                margin-bottom: 22px;
+            }
+
+            .table-container table {
+                min-width: 650px;
+            }
+
+            .table-container th,
+            .table-container td {
+                padding: 12px 10px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .table-container {
+                padding: 22px 12px;
+            }
+
+            .table-container h2 {
+                font-size: 24px;
+            }
+
+            .table-container a {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="table-container">
+
+        <h2>Our Doctors</h2>
+
+        <table>
+
+            <tr>
+                <th>ID</th>
+                <th>Doctor Name</th>
+                <th>Specialization</th>
+                <th>Contact</th>
+            </tr>
+
+            {% for doctor in doctors %}
+
+            <tr>
+                <td>{{ doctor[0] }}</td>
+                <td>{{ doctor[1] }}</td>
+                <td>{{ doctor[2] }}</td>
+                <td>{{ doctor[3] }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <p>
+            <a href="/dashboard">Back to Dashboard</a>
+        </p>
+
+    </div>
+
+</body>
+</html>
+

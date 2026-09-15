@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Book Appointment</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+<style>
+/* =========================
+   Book Appointment Page
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+
+    background: linear-gradient(
+        135deg,
+        #e0f7fa,
+        #ffffff,
+        #e3f2fd
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #263238;
+}
+
+/* =========================
+   Form Container
+   ========================= */
+
+.form-container {
+    width: 90%;
+    max-width: 550px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    padding: 40px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 105, 150, 0.15);
+
+    border: 1px solid rgba(0, 150, 180, 0.1);
+
+    text-align: center;
+}
+
+/* =========================
+   Heading
+   ========================= */
+
+.form-container h2 {
+    font-size: 32px;
+
+    color: #007c91;
+
+    margin-bottom: 30px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   Form
+   ========================= */
+
+.form-container form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+/* =========================
+   Input & Select
+   ========================= */
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid #cfdfe3;
+
+    border-radius: 10px;
+
+    background: #f8fcfd;
+
+    color: #263238;
+
+    font-size: 15px;
+
+    font-family: inherit;
+
+    outline: none;
+
+    transition: all 0.3s ease;
+}
+
+/* =========================
+   Placeholder
+   ========================= */
+
+.form-container input::placeholder,
+.form-container textarea::placeholder {
+    color: #90a4ae;
+}
+
+/* =========================
+   Select
+   ========================= */
+
+.form-container select {
+    cursor: pointer;
+
+    appearance: auto;
+}
+
+/* =========================
+   Focus Effect
+   ========================= */
+
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    border-color: #00acc1;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 172, 193, 0.12);
+}
+
+/* =========================
+   Labels
+   ========================= */
+
+.form-container label {
+    display: block;
+
+    text-align: left;
+
+    margin-top: 3px;
+
+    margin-bottom: -7px;
+
+    color: #546e7a;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+/* =========================
+   Textarea
+   ========================= */
+
+.form-container textarea {
+    min-height: 110px;
+
+    resize: vertical;
+}
+
+/* =========================
+   Book Appointment Button
+   ========================= */
+
+.form-container button {
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+
+    box-shadow:
+        0 5px 12px rgba(0, 137, 153, 0.2);
+}
+
+/* =========================
+   Button Hover
+   ========================= */
+
+.form-container button:hover {
+    transform: translateY(-2px);
+
+    background: linear-gradient(
+        135deg,
+        #00838f,
+        #005f73
+    );
+
+    box-shadow:
+        0 8px 18px rgba(0, 105, 120, 0.3);
+}
+
+/* =========================
+   Button Active
+   ========================= */
+
+.form-container button:active {
+    transform: translateY(0);
+}
+
+/* =========================
+   Bottom Paragraph
+   ========================= */
+
+.form-container p {
+    margin-top: 22px;
+
+    font-size: 14px;
+
+    color: #607d8b;
+
+    line-height: 1.6;
+}
+
+/* =========================
+   Dashboard Link
+   ========================= */
+
+.form-container a {
+    color: #007c91;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition: color 0.3s ease;
+}
+
+.form-container a:hover {
+    color: #005f73;
+
+    text-decoration: underline;
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+
+@media (max-width: 600px) {
+
+    body {
+        align-items: flex-start;
+
+        padding: 30px 0;
+    }
+
+    .form-container {
+        width: 92%;
+
+        padding: 30px 20px;
+
+        border-radius: 20px;
+    }
+
+    .form-container h2 {
+        font-size: 27px;
+
+        margin-bottom: 24px;
+    }
+
+    .form-container input,
+    .form-container select,
+    .form-container textarea {
+        padding: 13px 14px;
+
+        font-size: 14px;
+    }
+
+    .form-container label {
+        font-size: 13px;
+    }
+
+    .form-container button {
+        padding: 13px;
+
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .form-container {
+        padding: 25px 16px;
+    }
+
+    .form-container h2 {
+        font-size: 24px;
+    }
+
+    .form-container p {
+        font-size: 13px;
+    }
+}
+</style>
+
+<div class="form-container">
+
+    <h2>Book Dental Appointment</h2>
+
+    <form method="POST">
+
+        <input type="text"
+               id="appointment_id"
+               name="patient_name"
+               value="{{ session.get('user_name') }}"
+               placeholder="Patient Name"
+               required>
+
+        <select name="doctor_name" required>
+
+            <option value="">
+                Select Doctor
+            </option>
+
+            {% for doctor in doctors %}
+
+            <option value="{{ doctor[1] }}">
+                Dr. {{ doctor[1] }} -
+                {{ doctor[2] }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+        <label>Appointment Date</label>
+
+        <input type="date"
+               name="appointment_date"
+               required>
+
+        <label>Appointment Time</label>
+
+        <input type="time"
+               name="appointment_time"
+               required>
+
+        <textarea name="reason"
+                  placeholder="Enter Dental Problem / Reason"
+                  required></textarea>
+
+        <button type="submit">
+            Book Appointment
+        </button>
+
+    </form>
+
+    <p>
+        <a href="/dashboard">
+            Back to Dashboard
+        </a>
+    </p>
+
+</div>
+
+</body>
+</html>
+

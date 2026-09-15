@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Reports</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { font-family: "Segoe UI", Arial, sans-serif; min-height: 100vh; margin: 0; padding: 32px 16px; background: linear-gradient(135deg, #e0f7fa, #fff, #e3f2fd); color: #263238; }
+        .page { max-width: 1100px; margin: auto; } h1 { color: #007c91; margin-bottom: 6px; } .intro { color: #607d8b; margin-top: 0; }
+        .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 25px 0; } .card, .panel { background: rgba(255,255,255,.96); border: 1px solid #d7edf1; border-radius: 14px; padding: 22px; box-shadow: 0 8px 22px rgba(0,105,150,.08); } .card strong { display: block; font-size: 28px; color: #007c91; } .card span { color: #607d8b; font-size: 14px; }
+        .panel { margin-top: 18px; } h2 { color: #007c91; font-size: 20px; margin-top: 0; } .billing { display: flex; gap: 30px; color: #546e7a; } .billing strong { color: #263238; }
+        table { width: 100%; border-collapse: collapse; } th, td { text-align: left; padding: 12px; border-bottom: 1px solid #e0eef2; } th { color: #fff; background: #007c91; } .status { color: #007c91; font-weight: 700; } .back { display: inline-block; margin-top: 22px; padding: 11px 18px; background: #007c91; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; }
+        @media (max-width: 700px) { .cards { grid-template-columns: repeat(2, 1fr); } .billing { flex-direction: column; gap: 8px; } }
+    </style>
+</head>
+<body>
+<main class="page">
+    <h1>Clinic Reports</h1><p class="intro">A quick view of appointments and billing performance.</p>
+    <section class="cards">
+        <div class="card"><strong>{{ summary['appointments'] or 0 }}</strong><span>Total appointments</span></div>
+        <div class="card"><strong>{{ summary['completed'] or 0 }}</strong><span>Completed</span></div>
+        <div class="card"><strong>{{ summary['scheduled'] or 0 }}</strong><span>Scheduled</span></div>
+        <div class="card"><strong>{{ summary['cancelled'] or 0 }}</strong><span>Cancelled</span></div>
+    </section>
+    <section class="panel"><h2>Billing summary</h2><div class="billing"><span>Total billed: <strong>${{ '%.2f'|format(billing['billed']) }}</strong></span><span>Paid: <strong>${{ '%.2f'|format(billing['paid']) }}</strong></span><span>Outstanding: <strong>${{ '%.2f'|format(billing['outstanding']) }}</strong></span></div></section>
+    <section class="panel"><h2>Recent appointments</h2>
+        {% if recent %}<div style="overflow-x:auto"><table><thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th></tr></thead><tbody>{% for item in recent %}<tr><td>{{ item['patient_name'] }}</td><td>{{ item['doctor_name'] }}</td><td>{{ item['date'] }}</td><td class="status">{{ item['status'] }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="intro">No appointments have been recorded.</p>{% endif %}
+    </section>
+    <a class="back" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</main>
+</body>
+</html>

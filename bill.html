@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Patient Bill</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+<style>
+/* =========================
+   Patient Bill Page
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+
+    background: linear-gradient(
+        135deg,
+        #e0f7fa,
+        #ffffff,
+        #e3f2fd
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #263238;
+}
+
+/* =========================
+   Bill Container
+   ========================= */
+
+.bill-container {
+    width: 90%;
+    max-width: 600px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    padding: 40px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 105, 150, 0.15);
+
+    border: 1px solid rgba(0, 150, 180, 0.1);
+
+    text-align: left;
+}
+
+/* =========================
+   Heading
+   ========================= */
+
+.bill-container h2 {
+    text-align: center;
+
+    font-size: 32px;
+
+    color: #007c91;
+
+    margin-bottom: 30px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   Bill Details
+   ========================= */
+
+.bill-container p {
+    padding: 13px 15px;
+
+    margin-bottom: 8px;
+
+    background: #f5fcfd;
+
+    border-radius: 10px;
+
+    color: #546e7a;
+
+    font-size: 15px;
+
+    border-left: 4px solid #00acc1;
+}
+
+/* =========================
+   Strong Text
+   ========================= */
+
+.bill-container p strong {
+    color: #37474f;
+}
+
+/* =========================
+   Horizontal Line
+   ========================= */
+
+.bill-container hr {
+    border: none;
+
+    height: 1px;
+
+    background: #cfe8ed;
+
+    margin: 20px 0;
+}
+
+/* =========================
+   Total Amount
+   ========================= */
+
+.bill-container .total {
+    background: linear-gradient(
+        135deg,
+        #e0f7fa,
+        #e3f2fd
+    );
+
+    border-left: 5px solid #007c91;
+
+    color: #007c91;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    padding: 17px;
+}
+
+/* =========================
+   Back to Dashboard
+   ========================= */
+
+.bill-container > p:last-child {
+    background: transparent;
+
+    border: none;
+
+    padding: 0;
+
+    margin-top: 25px;
+
+    text-align: center;
+}
+
+/* =========================
+   Dashboard Button
+   ========================= */
+
+.bill-container a {
+    display: inline-block;
+
+    padding: 11px 20px;
+
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+
+    font-size: 15px;
+
+    transition: all 0.3s ease;
+
+    box-shadow:
+        0 5px 12px rgba(0, 137, 153, 0.2);
+}
+
+/* =========================
+   Link Hover
+   ========================= */
+
+.bill-container a:hover {
+    transform: translateY(-2px);
+
+    background: linear-gradient(
+        135deg,
+        #00838f,
+        #005f73
+    );
+
+    box-shadow:
+        0 8px 18px rgba(0, 105, 120, 0.3);
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+
+@media (max-width: 600px) {
+
+    body {
+        align-items: flex-start;
+
+        padding: 30px 0;
+    }
+
+    .bill-container {
+        width: 92%;
+
+        padding: 30px 20px;
+
+        border-radius: 20px;
+    }
+
+    .bill-container h2 {
+        font-size: 27px;
+
+        margin-bottom: 24px;
+    }
+
+    .bill-container p {
+        font-size: 14px;
+
+        padding: 12px;
+    }
+
+    .bill-container .total {
+        font-size: 18px;
+    }
+
+    .bill-container a {
+        padding: 10px 16px;
+
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .bill-container {
+        padding: 25px 15px;
+    }
+
+    .bill-container h2 {
+        font-size: 24px;
+    }
+
+    .bill-container .total {
+        font-size: 17px;
+    }
+}
+</style>
+
+<div class="bill-container">
+
+    <h2>Dental Clinic Bill</h2>
+
+        {% if bill %}
+            <p><strong>Patient Name:</strong> {{ bill["patient_name"] }}</p>
+            <p><strong>Appointment ID:</strong> {{ bill["appointment_id"] }}</p>
+            <p class="total"><strong>Amount:</strong> ₹{{ bill["amount"] }}</p>
+            <p><strong>Status:</strong> {{ bill["status"] }}</p>
+            <p><strong>Bill Date:</strong> {{ bill["date"] }}</p>
+        {% else %}
+            <p>No bill available.</p>
+        {% endif %}
+
+    <p>
+        <a href="/dashboard">
+            Back to Dashboard
+        </a>
+    </p>
+
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+<style>
+/* =========================
+   Dashboard Page
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+
+    background: linear-gradient(
+        135deg,
+        #e0f7fa,
+        #ffffff,
+        #e3f2fd
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #263238;
+}
+
+/* =========================
+   Dashboard Container
+   ========================= */
+
+.dashboard-container {
+    width: 90%;
+    max-width: 750px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    padding: 50px 45px;
+
+    border-radius: 28px;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 45px rgba(0, 105, 150, 0.16);
+
+    border: 1px solid rgba(0, 150, 180, 0.1);
+}
+
+/* =========================
+   Dashboard Heading
+   ========================= */
+
+.dashboard-container h1 {
+    font-size: 38px;
+
+    color: #007c91;
+
+    margin-bottom: 12px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   Welcome Text
+   ========================= */
+
+.dashboard-container > p {
+    color: #607d8b;
+
+    font-size: 16px;
+
+    margin-bottom: 35px;
+}
+
+/* =========================
+   Dashboard Buttons
+   ========================= */
+
+.dashboard-buttons {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 16px;
+
+    width: 100%;
+}
+
+/* =========================
+   Button Style
+   ========================= */
+
+.dashboard-buttons .btn {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    min-height: 52px;
+
+    padding: 14px 18px;
+
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    box-shadow:
+        0 5px 12px rgba(0, 137, 153, 0.2);
+
+    transition: all 0.3s ease;
+}
+
+/* =========================
+   Button Hover
+   ========================= */
+
+.dashboard-buttons .btn:hover {
+    transform: translateY(-3px);
+
+    background: linear-gradient(
+        135deg,
+        #00838f,
+        #005f73
+    );
+
+    box-shadow:
+        0 9px 20px rgba(0, 105, 120, 0.3);
+}
+
+/* =========================
+   Button Click
+   ========================= */
+
+.dashboard-buttons .btn:active {
+    transform: translateY(0);
+}
+
+/* =========================
+   Logout Button
+   ========================= */
+
+.dashboard-buttons .logout-btn {
+    background: linear-gradient(
+        135deg,
+        #ef5350,
+        #c62828
+    );
+
+    box-shadow:
+        0 5px 12px rgba(198, 40, 40, 0.18);
+}
+
+/* Logout Hover */
+
+.dashboard-buttons .logout-btn:hover {
+    background: linear-gradient(
+        135deg,
+        #e53935,
+        #b71c1c
+    );
+
+    box-shadow:
+        0 9px 20px rgba(183, 28, 28, 0.28);
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+
+@media (max-width: 650px) {
+
+    body {
+        align-items: flex-start;
+
+        padding: 30px 0;
+    }
+
+    .dashboard-container {
+        width: 92%;
+
+        padding: 35px 22px;
+
+        border-radius: 22px;
+    }
+
+    .dashboard-container h1 {
+        font-size: 32px;
+    }
+
+    .dashboard-container > p {
+        font-size: 14px;
+
+        margin-bottom: 28px;
+    }
+
+    .dashboard-buttons {
+        grid-template-columns: 1fr;
+
+        gap: 13px;
+    }
+
+    .dashboard-buttons .btn {
+        min-height: 50px;
+
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .dashboard-container {
+        padding: 30px 18px;
+    }
+
+    .dashboard-container h1 {
+        font-size: 28px;
+    }
+
+    .dashboard-container > p {
+        font-size: 13px;
+    }
+}
+</style>
+
+<div class="dashboard-container">
+
+    <h1>Dashboard</h1>
+
+    <p>Welcome, {{ user_name }}. Here is your clinic overview.</p>
+
+    <div class="dashboard-stats">
+        <div><strong>{{ stats['total'] or 0 }}</strong><span>Total appointments</span></div>
+        <div><strong>{{ stats['scheduled'] or 0 }}</strong><span>Scheduled</span></div>
+    </div>
+
+    <div class="dashboard-buttons">
+
+        <a href="/doctors" class="btn">
+            View Doctors
+        </a>
+        {% if user_type == 'patient' %}
+            <a href="/appointments" class="btn">
+                Book Appointment
+            </a>
+
+            <a href="/bill" class="btn">
+                View Bill
+            </a>
+            <a href="/my_appointments" class="btn">
+                Appointment History
+            </a>
+        {% endif %}
+
+        {% if user_type == 'admin' %}
+            <a href="/add_doctor" class="btn">
+                Add Doctor
+            </a>
+
+            <a href="/view_appointments" class="btn">
+                View Appointments
+            </a>
+
+            <a href="/patients" class="btn">
+                View Patients
+            </a>
+            <a href="/delete_doctor" class="btn">
+               Delete Doctor
+            </a>
+                <a href="/reports" class="btn">
+                    Clinic Reports
+                </a>
+        {% endif %}
+
+        <a href="/logout" class="btn logout-btn">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+

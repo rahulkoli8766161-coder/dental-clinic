@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Delete Doctor</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<style>
+
+/* =========================
+   Delete Doctor Page
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+
+    background: linear-gradient(
+        135deg,
+        #e0f7fa,
+        #ffffff,
+        #e3f2fd
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #263238;
+}
+
+/* =========================
+   Delete Container
+   ========================= */
+
+.delete-container {
+    width: 90%;
+    max-width: 600px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    padding: 40px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 105, 150, 0.15);
+
+    border: 1px solid rgba(0, 150, 180, 0.1);
+
+    text-align: center;
+}
+
+/* =========================
+   Heading
+   ========================= */
+
+.delete-container h2 {
+    font-size: 32px;
+
+    color: #c62828;
+
+    margin-bottom: 12px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   Description
+   ========================= */
+
+.delete-container .description {
+    color: #607d8b;
+
+    font-size: 15px;
+
+    margin-bottom: 25px;
+}
+
+/* =========================
+   Doctor List
+   ========================= */
+
+.doctor-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+}
+
+/* =========================
+   Doctor Card
+   ========================= */
+
+.doctor-card {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 15px 18px;
+
+    background: #f5fcfd;
+
+    border: 1px solid #d8edf1;
+
+    border-radius: 12px;
+
+    text-align: left;
+
+    transition: all 0.3s ease;
+}
+
+.doctor-card:hover {
+    background: #e0f7fa;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 12px rgba(0, 105, 150, 0.1);
+}
+
+/* =========================
+   Doctor Information
+   ========================= */
+
+.doctor-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.doctor-info .doctor-name {
+    color: #37474f;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+.doctor-info .specialization {
+    color: #007c91;
+
+    font-size: 14px;
+}
+
+/* =========================
+   Delete Button
+   ========================= */
+
+.delete-btn {
+    padding: 9px 15px;
+
+    background: linear-gradient(
+        135deg,
+        #ef5350,
+        #c62828
+    );
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+
+    box-shadow:
+        0 4px 10px rgba(198, 40, 40, 0.18);
+}
+
+.delete-btn:hover {
+    transform: translateY(-2px);
+
+    background: linear-gradient(
+        135deg,
+        #e53935,
+        #b71c1c
+    );
+
+    box-shadow:
+        0 7px 15px rgba(183, 28, 28, 0.28);
+}
+
+/* =========================
+   No Doctor Message
+   ========================= */
+
+.no-doctor {
+    padding: 18px;
+
+    background: #f5fcfd;
+
+    border-radius: 10px;
+
+    color: #78909c;
+
+    font-size: 15px;
+}
+
+/* =========================
+   Back Button
+   ========================= */
+
+.back-btn {
+    display: inline-block;
+
+    padding: 11px 20px;
+
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+
+    box-shadow:
+        0 5px 12px rgba(0, 137, 153, 0.2);
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+
+    background: linear-gradient(
+        135deg,
+        #00838f,
+        #005f73
+    );
+
+    box-shadow:
+        0 8px 18px rgba(0, 105, 120, 0.3);
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+
+@media (max-width: 600px) {
+
+    body {
+        align-items: flex-start;
+
+        padding: 30px 0;
+    }
+
+    .delete-container {
+        width: 92%;
+
+        padding: 30px 20px;
+
+        border-radius: 20px;
+    }
+
+    .delete-container h2 {
+        font-size: 27px;
+    }
+
+    .delete-container .description {
+        font-size: 14px;
+    }
+
+    .doctor-card {
+        padding: 13px;
+
+        gap: 10px;
+    }
+
+    .doctor-info .doctor-name {
+        font-size: 14px;
+    }
+
+    .doctor-info .specialization {
+        font-size: 12px;
+    }
+
+    .delete-btn {
+        padding: 8px 11px;
+
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .delete-container {
+        padding: 25px 15px;
+    }
+
+    .delete-container h2 {
+        font-size: 24px;
+    }
+
+    .doctor-card {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .delete-btn {
+        text-align: center;
+
+        width: 100%;
+    }
+}
+
+</style>
+
+
+<div class="delete-container">
+
+    <h2>Delete Doctor</h2>
+
+    <p class="description">
+        Select a doctor you want to delete.
+    </p>
+
+
+    <div class="doctor-list">
+        {% for doctor in doctors %}
+        <div class="doctor-card">
+
+            <div class="doctor-info">
+
+                <span class="doctor-name">
+                    Dr. {{ doctor["name"] }}
+                </span>
+
+                <span class="specialization">
+                    {{ doctor["specialization"] }}
+                </span>
+
+            </div>
+
+
+                <a href="/delete_doctor/{{ doctor["id"] }}"
+               class="delete-btn"
+                    onclick="return confirm('Are you sure you want to delete Dr. {{ doctor["name"] }}?');">
+
+                Delete
+
+            </a>
+
+        </div>
+        {% else %}
+        <div class="no-doctor">
+            No doctors available.
+        </div>
+        {% endfor %}
+
+    </div>
+
+
+    <a href="/dashboard" class="back-btn">
+        Back to Dashboard
+    </a>
+
+</div>
+
+
+</body>
+</html>
+
+

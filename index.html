@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dental Clinic Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<style>
+/* =========================
+   Dental Clinic Home Page
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+
+    /* Soft dental/medical background */
+    background: linear-gradient(
+        135deg,
+        #e0f7fa,
+        #ffffff,
+        #e3f2fd
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #263238;
+}
+
+/* Main Container */
+.home-container {
+    width: 90%;
+    max-width: 650px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    padding: 55px 45px;
+
+    border-radius: 25px;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 40px rgba(0, 105, 150, 0.15);
+
+    border: 1px solid rgba(0, 150, 180, 0.1);
+}
+
+/* Heading */
+.home-container h1 {
+    font-size: 38px;
+    color: #007c91;
+
+    margin-bottom: 15px;
+
+    font-weight: 700;
+}
+
+/* Welcome Text */
+.home-container p {
+    font-size: 19px;
+    color: #607d8b;
+
+    margin-bottom: 35px;
+}
+
+/* Button Group */
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Common Button */
+.btn {
+    display: block;
+
+    width: 100%;
+
+    padding: 15px 20px;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+
+    box-shadow: 0 6px 15px rgba(0, 137, 153, 0.2);
+}
+
+/* Button Hover */
+.btn:hover {
+    transform: translateY(-3px);
+
+    background: linear-gradient(
+        135deg,
+        #00838f,
+        #005f73
+    );
+
+    box-shadow: 0 10px 20px rgba(0, 105, 120, 0.3);
+}
+
+/* Admin Button */
+.admin-btn {
+    background: linear-gradient(
+        135deg,
+        #455a64,
+        #263238
+    );
+}
+
+.admin-btn:hover {
+    background: linear-gradient(
+        135deg,
+        #37474f,
+        #1c2529
+    );
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .home-container {
+        padding: 40px 25px;
+        width: 92%;
+    }
+
+    .home-container h1 {
+        font-size: 28px;
+    }
+
+    .home-container p {
+        font-size: 16px;
+    }
+
+    .btn {
+        font-size: 16px;
+        padding: 14px;
+    }
+}
+</style>
+
+<div class="home-container">
+
+    <h1>Dental Clinic Management System</h1>
+
+    <p>Welcome to Our Dental Clinic</p>
+
+    <div class="btn-group">
+
+        <a href="/register" class="btn">
+            Patient Register
+        </a>
+
+        <a href="/login" class="btn">
+            Patient Login
+        </a>
+
+        <a href="/admin_login" class="btn admin-btn">
+            Admin Login
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Patient Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+<style>
+/* =========================
+   Patient Login Page
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+
+    /* Soft dental/medical background */
+    background: linear-gradient(
+        135deg,
+        #e0f7fa,
+        #ffffff,
+        #e3f2fd
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #263238;
+}
+
+/* =========================
+   Login Container
+   ========================= */
+
+.form-container {
+    width: 90%;
+    max-width: 500px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    padding: 45px 40px;
+
+    border-radius: 25px;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 40px rgba(0, 105, 150, 0.15);
+
+    border: 1px solid rgba(0, 150, 180, 0.1);
+}
+
+/* =========================
+   Heading
+   ========================= */
+
+.form-container h2 {
+    font-size: 32px;
+
+    color: #007c91;
+
+    margin-bottom: 25px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   Error Message
+   ========================= */
+
+.error {
+    color: #d32f2f;
+
+    background: #ffebee;
+
+    padding: 10px 15px;
+
+    border-radius: 8px;
+
+    margin-bottom: 20px;
+
+    font-size: 14px;
+}
+
+/* =========================
+   Form
+   ========================= */
+
+.form-container form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+/* =========================
+   Input Fields
+   ========================= */
+
+.form-container input {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid #b0bec5;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 16px;
+
+    color: #263238;
+
+    background: #f8fdff;
+
+    transition: all 0.3s ease;
+}
+
+/* Input Focus */
+
+.form-container input:focus {
+    border-color: #00acc1;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 172, 193, 0.12);
+}
+
+/* Placeholder */
+
+.form-container input::placeholder {
+    color: #90a4ae;
+}
+
+/* =========================
+   Login Button
+   ========================= */
+
+.form-container button {
+    width: 100%;
+
+    padding: 15px 20px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+
+    box-shadow:
+        0 6px 15px rgba(0, 137, 153, 0.2);
+}
+
+/* Button Hover */
+
+.form-container button:hover {
+    transform: translateY(-3px);
+
+    background: linear-gradient(
+        135deg,
+        #00838f,
+        #005f73
+    );
+
+    box-shadow:
+        0 10px 20px rgba(0, 105, 120, 0.3);
+}
+
+/* =========================
+   Paragraph
+   ========================= */
+
+.form-container p {
+    font-size: 15px;
+
+    color: #607d8b;
+
+    margin-top: 22px;
+}
+
+/* =========================
+   Links
+   ========================= */
+
+.form-container a {
+    color: #007c91;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition: color 0.3s ease;
+}
+
+.form-container a:hover {
+    color: #005f73;
+
+    text-decoration: underline;
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .form-container {
+        width: 92%;
+
+        padding: 35px 25px;
+    }
+
+    .form-container h2 {
+        font-size: 28px;
+    }
+
+    .form-container input {
+        font-size: 15px;
+
+        padding: 13px 14px;
+    }
+
+    .form-container button {
+        font-size: 16px;
+
+        padding: 14px;
+    }
+
+    .form-container p {
+        font-size: 14px;
+    }
+}
+</style>
+
+<div class="form-container">
+
+    <h2>Patient Login</h2>
+    <form method="POST">
+        <input type="text"
+               name="Name"
+               placeholder="Enter Name"
+               required>
+               
+        <input type="email"
+               name="email"
+               placeholder="Enter Email"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Enter Password"
+               required>
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <p>
+        Don't have an account?
+        <a href="/register">Register</a>
+    </p>
+
+    <p>
+        <a href="/">Back to Home</a>
+    </p>
+
+</div>
+
+</body>
+</html>

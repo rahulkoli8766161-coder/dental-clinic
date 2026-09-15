@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Patient Registration</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+<style>
+/* =========================
+   Patient Registration Page
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+
+    background: linear-gradient(
+        135deg,
+        #e0f7fa,
+        #ffffff,
+        #e3f2fd
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #263238;
+}
+
+/* =========================
+   Form Container
+   ========================= */
+
+.form-container {
+    width: 90%;
+    max-width: 500px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    padding: 40px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 105, 150, 0.15);
+
+    border: 1px solid rgba(0, 150, 180, 0.1);
+
+    text-align: center;
+}
+
+/* =========================
+   Heading
+   ========================= */
+
+.form-container h2 {
+    font-size: 32px;
+
+    color: #007c91;
+
+    margin-bottom: 30px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   Form
+   ========================= */
+
+.form-container form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+/* =========================
+   Input Fields
+   ========================= */
+
+.form-container input,
+.form-container textarea {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid #cfdfe3;
+
+    border-radius: 10px;
+
+    background: #f8fcfd;
+
+    color: #263238;
+
+    font-size: 15px;
+
+    font-family: inherit;
+
+    outline: none;
+
+    transition: all 0.3s ease;
+}
+
+/* Placeholder */
+
+.form-container input::placeholder,
+.form-container textarea::placeholder {
+    color: #90a4ae;
+}
+
+/* Focus Effect */
+
+.form-container input:focus,
+.form-container textarea:focus {
+    border-color: #00acc1;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 172, 193, 0.12);
+}
+
+/* =========================
+   Textarea
+   ========================= */
+
+.form-container textarea {
+    min-height: 110px;
+
+    resize: vertical;
+}
+
+/* =========================
+   Register Button
+   ========================= */
+
+.form-container button {
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+
+    box-shadow:
+        0 5px 12px rgba(0, 137, 153, 0.2);
+}
+
+/* Button Hover */
+
+.form-container button:hover {
+    transform: translateY(-2px);
+
+    background: linear-gradient(
+        135deg,
+        #00838f,
+        #005f73
+    );
+
+    box-shadow:
+        0 8px 18px rgba(0, 105, 120, 0.3);
+}
+
+/* Button Click */
+
+.form-container button:active {
+    transform: translateY(0);
+}
+
+/* =========================
+   Paragraph
+   ========================= */
+
+.form-container p {
+    margin-top: 20px;
+
+    font-size: 14px;
+
+    color: #607d8b;
+
+    line-height: 1.6;
+}
+
+/* =========================
+   Links
+   ========================= */
+
+.form-container a {
+    color: #007c91;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition: color 0.3s ease;
+}
+
+.form-container a:hover {
+    color: #005f73;
+
+    text-decoration: underline;
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+
+@media (max-width: 600px) {
+
+    body {
+        align-items: flex-start;
+
+        padding: 30px 0;
+    }
+
+    .form-container {
+        width: 92%;
+
+        padding: 30px 22px;
+
+        border-radius: 20px;
+    }
+
+    .form-container h2 {
+        font-size: 27px;
+
+        margin-bottom: 24px;
+    }
+
+    .form-container input,
+    .form-container textarea {
+        padding: 13px 14px;
+
+        font-size: 14px;
+    }
+
+    .form-container button {
+        padding: 13px;
+
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .form-container {
+        padding: 25px 16px;
+    }
+
+    .form-container h2 {
+        font-size: 24px;
+    }
+
+    .form-container p {
+        font-size: 13px;
+    }
+}
+</style>
+<div class="form-container">
+
+    <h2>Patient Registration</h2>
+
+    <form method="POST">
+
+        <input type="text"
+               name="name"
+               placeholder="Enter Full Name"
+               required>
+
+        <input type="email"
+               name="email"
+               placeholder="Enter Email"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Enter Password"
+               required>
+
+        <input type="text"
+               name="contact"
+               placeholder="Enter Contact Number"
+               required>
+
+        <textarea name="address"
+                  placeholder="Enter Address"
+                  required></textarea>
+
+        <button type="submit">
+            Register
+        </button>
+
+    </form>
+
+    <p>
+        Already have an account?
+        <a href="/login">Login</a>
+    </p>
+
+    <p>
+        <a href="/">Back to Home</a>
+    </p>
+
+</div>
+
+</body>
+</html>
+

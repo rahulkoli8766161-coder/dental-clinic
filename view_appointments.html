@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>View Appointments</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+<style>
+/* =========================
+   Appointments Table Page
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+
+    background: linear-gradient(
+        135deg,
+        #e0f7fa,
+        #ffffff,
+        #e3f2fd
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #263238;
+}
+
+/* =========================
+   Table Container
+   ========================= */
+
+.table-container {
+    width: 95%;
+    max-width: 1200px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    padding: 40px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 105, 150, 0.15);
+
+    border: 1px solid rgba(0, 150, 180, 0.1);
+
+    text-align: center;
+
+    overflow-x: auto;
+}
+
+/* =========================
+   Heading
+   ========================= */
+
+.table-container h2 {
+    font-size: 32px;
+
+    color: #007c91;
+
+    margin-bottom: 30px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   Table
+   ========================= */
+
+.table-container table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 15px rgba(0, 105, 150, 0.08);
+}
+
+/* =========================
+   Table Header
+   ========================= */
+
+.table-container th {
+    padding: 16px 14px;
+
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+/* =========================
+   Table Data
+   ========================= */
+
+.table-container td {
+    padding: 15px 14px;
+
+    border-bottom: 1px solid #e0eef2;
+
+    color: #455a64;
+
+    font-size: 15px;
+
+    text-align: left;
+}
+
+/* =========================
+   Alternate Rows
+   ========================= */
+
+.table-container tr:nth-child(even) td {
+    background: #f5fcfd;
+}
+
+/* =========================
+   Hover Effect
+   ========================= */
+
+.table-container tr:hover td {
+    background: #e0f7fa;
+
+    transition: 0.3s ease;
+}
+
+/* Remove hover from header */
+
+.table-container tr:first-child:hover th {
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+}
+
+/* =========================
+   Status Styling
+   ========================= */
+
+.table-container td:last-child {
+    font-weight: 600;
+
+    color: #007c91;
+}
+
+/* =========================
+   Back to Dashboard
+   ========================= */
+
+.table-container p {
+    margin-top: 25px;
+
+    font-size: 15px;
+
+    color: #607d8b;
+}
+
+.table-container a {
+    display: inline-block;
+
+    padding: 11px 20px;
+
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+
+    box-shadow:
+        0 5px 12px rgba(0, 137, 153, 0.2);
+}
+
+/* =========================
+   Link Hover
+   ========================= */
+
+.table-container a:hover {
+    transform: translateY(-2px);
+
+    background: linear-gradient(
+        135deg,
+        #00838f,
+        #005f73
+    );
+
+    box-shadow:
+        0 8px 18px rgba(0, 105, 120, 0.3);
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+
+@media (max-width: 768px) {
+
+    body {
+        align-items: flex-start;
+
+        padding: 30px 0;
+    }
+
+    .table-container {
+        width: 94%;
+
+        padding: 25px 18px;
+
+        border-radius: 20px;
+    }
+
+    .table-container h2 {
+        font-size: 27px;
+
+        margin-bottom: 22px;
+    }
+
+    .table-container table {
+        min-width: 800px;
+    }
+
+    .table-container th,
+    .table-container td {
+        padding: 12px 10px;
+
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .table-container {
+        padding: 22px 12px;
+    }
+
+    .table-container h2 {
+        font-size: 24px;
+    }
+
+    .table-container a {
+        padding: 10px 16px;
+
+        font-size: 14px;
+    }
+}
+</style>
+
+<div class="table-container">
+
+    <h2>All Appointments</h2>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Patient Name</th>
+            <th>Doctor Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Update</th>
+        </tr>
+
+        {% for appointment in appointments %}
+
+        <tr>
+
+            <td>{{ appointment[0] }}</td>
+
+            <td>{{ appointment[1] }}</td>
+
+            <td>{{ appointment[2] }}</td>
+
+            <td>{{ appointment[3] }}</td>
+
+            <td>{{ appointment[4] }}</td>
+
+            <td>{{ appointment[5] }}</td>
+
+            <td>{{ appointment[6] }}</td>
+
+            <td>
+                <form method="post" action="{{ url_for('update_appointment_status', appointment_id=appointment[0]) }}">
+                    <select name="status">
+                        {% for option in ['Scheduled', 'Completed', 'Cancelled'] %}
+                            <option value="{{ option }}" {% if appointment[6] == option %}selected{% endif %}>{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Save</button>
+                </form>
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <p>
+        <a href="/dashboard">
+            Back to Dashboard
+        </a>
+    </p>
+
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { font-family: "Segoe UI", Arial, sans-serif; min-height: 100vh; margin: 0; padding: 32px 16px; background: linear-gradient(135deg, #e0f7fa, #fff, #e3f2fd); color: #263238; }
+        .page { max-width: 1100px; margin: auto; background: rgba(255,255,255,.96); padding: 34px; border-radius: 22px; box-shadow: 0 15px 40px rgba(0,105,150,.15); }
+        h1 { color: #007c91; margin: 0 0 8px; } .intro { color: #607d8b; margin-bottom: 24px; }
+        .table-wrap { overflow-x: auto; } table { width: 100%; border-collapse: collapse; min-width: 760px; } th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid #e0eef2; } th { color: #fff; background: #007c91; } tr:nth-child(even) td { background: #f5fcfd; }
+        .status { font-weight: 700; color: #007c91; } .muted { color: #78909c; } .actions { display: flex; gap: 10px; align-items: center; }
+        button, .back { border: 0; border-radius: 8px; padding: 9px 13px; color: #fff; background: #d32f2f; cursor: pointer; text-decoration: none; font-weight: 600; } .back { display: inline-block; margin-top: 22px; background: #007c91; }
+        .empty { padding: 30px; text-align: center; color: #607d8b; background: #f5fcfd; border-radius: 12px; }
+    </style>
+</head>
+<body>
+<main class="page">
+    <h1>My Appointments</h1>
+    <p class="intro">Review upcoming visits, billing, and appointment history.</p>
+    {% if appointments %}
+    <div class="table-wrap"><table>
+        <thead><tr><th>Doctor</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Bill</th><th>Action</th></tr></thead>
+        <tbody>
+        {% for appointment in appointments %}
+        <tr>
+            <td>{{ appointment['doctor_name'] }}<br><span class="muted">{{ appointment['specialization'] }}</span></td>
+            <td>{{ appointment['date'] }}</td><td>{{ appointment['time'] }}</td><td>{{ appointment['reason'] }}</td>
+            <td class="status">{{ appointment['status'] }}</td>
+            <td>${{ '%.2f'|format(appointment['amount'] or 0) }}<br><span class="muted">{{ appointment['bill_status'] or 'Unavailable' }}</span></td>
+            <td>{% if appointment['status'] == 'Scheduled' %}<form method="post" action="{{ url_for('cancel_appointment', appointment_id=appointment['id']) }}"><button type="submit">Cancel</button></form>{% else %}<span class="muted">No action</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table></div>
+    {% else %}<div class="empty">You have no appointments yet.</div>{% endif %}
+    <a class="back" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</main>
+</body>
+</html>

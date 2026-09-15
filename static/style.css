@@ -1,0 +1,12 @@
+/* Shared page defaults. Individual screens keep their own detailed styles. */
+html {
+    scroll-behavior: smooth;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    font: inherit;
+}

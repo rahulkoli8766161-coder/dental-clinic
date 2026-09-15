@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Admin Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+<style>
+/* =========================
+   Admin Login Page
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+
+    background: linear-gradient(
+        135deg,
+        #e0f7fa,
+        #ffffff,
+        #e3f2fd
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #263238;
+}
+
+/* =========================
+   Admin Form Container
+   ========================= */
+
+.admin-form {
+    width: 90%;
+    max-width: 450px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    padding: 40px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 105, 150, 0.15);
+
+    border: 1px solid rgba(0, 150, 180, 0.1);
+
+    text-align: center;
+}
+
+/* =========================
+   Heading
+   ========================= */
+
+.admin-form h2 {
+    font-size: 32px;
+
+    color: #007c91;
+
+    margin-bottom: 28px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   Error Message
+   ========================= */
+
+.admin-form .error {
+    margin: 0 0 18px 0;
+
+    padding: 12px 15px;
+
+    background: #ffebee;
+
+    color: #c62828;
+
+    border: 1px solid #ffcdd2;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+/* =========================
+   Form
+   ========================= */
+
+.admin-form form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+/* =========================
+   Input Fields
+   ========================= */
+
+.admin-form input {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid #cfdfe3;
+
+    border-radius: 10px;
+
+    background: #f8fcfd;
+
+    color: #263238;
+
+    font-size: 15px;
+
+    font-family: inherit;
+
+    outline: none;
+
+    transition: all 0.3s ease;
+}
+
+/* =========================
+   Placeholder
+   ========================= */
+
+.admin-form input::placeholder {
+    color: #90a4ae;
+}
+
+/* =========================
+   Input Focus
+   ========================= */
+
+.admin-form input:focus {
+    border-color: #00acc1;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 172, 193, 0.12);
+}
+
+/* =========================
+   Login Button
+   ========================= */
+
+.admin-form button {
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 3px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #00acc1,
+        #007c91
+    );
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+
+    box-shadow:
+        0 5px 12px rgba(0, 137, 153, 0.2);
+}
+
+/* =========================
+   Button Hover
+   ========================= */
+
+.admin-form button:hover {
+    transform: translateY(-2px);
+
+    background: linear-gradient(
+        135deg,
+        #00838f,
+        #005f73
+    );
+
+    box-shadow:
+        0 8px 18px rgba(0, 105, 120, 0.3);
+}
+
+/* =========================
+   Button Active
+   ========================= */
+
+.admin-form button:active {
+    transform: translateY(0);
+}
+
+/* =========================
+   Bottom Paragraph
+   ========================= */
+
+.admin-form p {
+    margin-top: 22px;
+
+    font-size: 14px;
+
+    color: #607d8b;
+
+    line-height: 1.6;
+}
+
+/* =========================
+   Back to Home Link
+   ========================= */
+
+.admin-form a {
+    color: #007c91;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition: color 0.3s ease;
+}
+
+.admin-form a:hover {
+    color: #005f73;
+
+    text-decoration: underline;
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+
+@media (max-width: 600px) {
+
+    body {
+        align-items: flex-start;
+
+        padding: 30px 0;
+    }
+
+    .admin-form {
+        width: 92%;
+
+        padding: 30px 20px;
+
+        border-radius: 20px;
+    }
+
+    .admin-form h2 {
+        font-size: 27px;
+
+        margin-bottom: 24px;
+    }
+
+    .admin-form input {
+        padding: 13px 14px;
+
+        font-size: 14px;
+    }
+
+    .admin-form button {
+        padding: 13px;
+
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .admin-form {
+        padding: 25px 16px;
+    }
+
+    .admin-form h2 {
+        font-size: 24px;
+    }
+
+    .admin-form .error {
+        font-size: 13px;
+
+        padding: 10px 12px;
+    }
+}
+</style>
+
+<div class="form-container admin-form">
+
+    <h2>Admin Login</h2>
+
+    <form method="POST">
+
+        <input type="text"
+               name="username"
+               placeholder="Enter Admin Username"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Enter Password"
+               required>
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <p>
+        <a href="/">Back to Home</a>
+    </p>
+
+</div>
+
+</body>
+</html>
+
